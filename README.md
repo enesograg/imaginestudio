@@ -28,7 +28,7 @@ python -m http.server 8000     # then open http://localhost:8000
 
 All photos/videos are **free-license stock** (Unsplash / Pexels — free for commercial use, no attribution required) standing in for Eddie's real work. Everything lives in two folders; **keep the filenames** and nothing else needs to change:
 
-- `assets/img/` — `wed-01..08` weddings · `ev-01..06` events · `fd-01..06` food · `car-01..08` automotive · `re-01..06` real estate · `bts-01..04` behind-the-scenes · `hero-poster` hero fallback · `about-portrait` **replace with a real photo of Eddie** · `about-side`
+- `assets/img/` — `wed-01..08` weddings · `ev-01..06` events · `fd-01..06` food · `car-01..09` automotive · `re-01..06` real estate · `bts-01..04` behind-the-scenes · `hero-poster` hero fallback · `about-portrait` **replace with a real photo of Eddie** · `about-side`
 - `assets/video/` — `hero-loop.mp4` (short, muted background loop ~10s, keep it under ~5MB) · `showreel.mp4` · `film-wed-01/02`, `film-couple`, `film-event-01`, `film-food-01`, `film-car-01/02`, `film-re-01`, `film-bts-01`
 
 Also replace, searching across the `.html` files:

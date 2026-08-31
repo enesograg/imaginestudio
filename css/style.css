@@ -496,6 +496,17 @@ html.no-motion .marquee-track { animation: none; }
 .pkg-list li.soft { color: var(--muted); }
 .pkg-card .btn { justify-content: center; }
 
+/* plain service blocks: heading + quote button left, offering list right */
+.svc-block {
+  display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(24px, 4vw, 80px);
+  border-top: 1px solid var(--line-soft); padding-block: clamp(40px, 6vw, 80px);
+  scroll-margin-top: 110px;
+}
+@media (max-width: 860px) { .svc-block { grid-template-columns: 1fr; gap: 20px; } }
+.svc-head .dim { margin: 12px 0 26px; max-width: 30em; }
+.svc-list { gap: 14px; display: flex; flex-direction: column; }
+.svc-list li { font-size: 1rem; }
+
 .addons { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
 .addon {
   border: 1px solid var(--line-soft); border-radius: 4px; padding: 20px 22px;

@@ -166,6 +166,22 @@
     card.addEventListener("mouseleave", function () { video.pause(); });
   });
 
+  /* ---------- autoplay previews (play in view, pause offscreen) ---------- */
+  var autoVideos = document.querySelectorAll(".feature-media.autoplay video");
+  if (autoVideos.length && !doc.classList.contains("no-motion")) {
+    if ("IntersectionObserver" in window) {
+      var autoObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.play().catch(function () {});
+          else entry.target.pause();
+        });
+      }, { threshold: 0.2 });
+      autoVideos.forEach(function (v) { autoObserver.observe(v); });
+    } else {
+      autoVideos.forEach(function (v) { v.play().catch(function () {}); });
+    }
+  }
+
   /* ---------- film players (click poster to play) ---------- */
   var players = document.querySelectorAll(".film-player");
   players.forEach(function (player) {

@@ -302,6 +302,9 @@ html.no-motion .preloader { display: none; }
 .feature-media video { position: absolute; inset: 0; opacity: 0; }
 .feature:hover .feature-media img { transform: scale(1.05); }
 .feature-media.has-video:hover video { opacity: 1; }
+/* .autoplay features play on their own; the video paints over the poster as soon as frames arrive */
+.feature-media.autoplay video { opacity: 1; }
+html.no-motion .feature-media.autoplay video { opacity: 0; }
 .feature-tag {
   position: absolute; top: 16px; left: 16px; z-index: 3;
   font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;

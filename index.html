@@ -22,6 +22,7 @@
   </div>
 
   <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
 
   <header class="nav">
     <div class="nav-inner">
@@ -59,11 +60,11 @@
         <div class="hero-shade"></div>
       </div>
       <div class="hero-content">
-        <p class="hero-kicker">Imagine — Films &amp; Photography</p>
-        <h1 class="h-display hero-title" data-split>Real moments, shot like cinema</h1>
+        <p class="hero-kicker" data-reveal data-delay="0.6">Imagine — Films &amp; Photography</p>
+        <h1 class="h-display hero-title" data-split data-split-delay="0.75"><span class="hl">Real moments,</span> <span class="hl">shot like <em>cinema</em></span></h1>
         <div class="hero-row">
-          <p class="hero-sub" data-reveal>One person, one camera bag, one cinematic eye. Photo &amp; film for weddings, events, food, cars and homes — shot with intention and graded like film.</p>
-          <div class="hero-actions" data-reveal data-delay="0.15">
+          <p class="hero-sub" data-reveal data-delay="1.05">One person, one camera bag, one cinematic eye. Photo &amp; film for weddings, events, food, cars and homes — shot with intention and graded like film.</p>
+          <div class="hero-actions" data-reveal data-delay="1.2">
             <button class="play-pill" data-lightbox-video="assets/video/showreel.mp4" data-title="Showreel — Imagine">
               <span class="ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
               Watch the reel
@@ -79,9 +80,9 @@
     <!-- STATEMENT -->
     <section class="section-lg">
       <div class="container statement">
-        <p class="label">01 — Who's behind it</p>
-        <h2 class="h-xl" data-split>A wedding. A festival. A plate. A machine. A home. Everything has a story — I shoot it like a film.</h2>
-        <p class="lead mt-1" data-reveal>Imagine started as short films on Instagram — and it's still just me, Eddie. I shoot the photos, I cut the films, I answer the messages. Every frame passes through one pair of hands.</p>
+        <p class="label">01 — Who’s behind it</p>
+        <h2 class="h-xl" data-split>A wedding. A festival. A plate. A machine. A home. Everything has a story — I shoot it like&nbsp;a&nbsp;<em>film</em>.</h2>
+        <p class="lead mt-1" data-reveal>Imagine started as short films on Instagram — and it’s still just me, Eddie. I shoot the photos, I cut the films, I answer the messages. Every frame passes through one pair of hands.</p>
         <p class="mt-1" data-reveal><a class="link-line" href="about.html">More about me <span class="arr">→</span></a></p>
       </div>
     </section>
@@ -121,7 +122,7 @@
             <div class="feature-info">
               <span class="idx">/ 02</span>
               <h3>Midnight Run</h3>
-              <p>Rolling shots, rig work and empty streets after midnight — a love letter to one owner's dream build.</p>
+              <p>Rolling shots, rig work and empty streets after midnight — a love letter to one owner’s dream build.</p>
               <a class="link-line" href="films.html">Watch the film <span class="arr">→</span></a>
             </div>
           </article>
@@ -163,7 +164,7 @@
             <div class="feature-info">
               <span class="idx">/ 05</span>
               <h3>Service — A Kitchen Film</h3>
-              <p>One evening behind the pass: the rush, the plating, the food arriving like it's on stage.</p>
+              <p>One evening behind the pass: the rush, the plating, the food arriving like it’s on stage.</p>
               <a class="link-line" href="films.html">Watch the film <span class="arr">→</span></a>
             </div>
           </article>
@@ -176,11 +177,11 @@
       <div class="container">
         <p class="label">03 — What I shoot</p>
         <h2 class="h-xl mb-2" data-split>Five worlds, one pair of eyes</h2>
-        <div class="grid-3">
+        <div class="grid-services">
           <article class="service-card" data-reveal>
             <img src="assets/img/wed-02.jpg" alt="Couple celebrating at an outdoor wedding reception" loading="lazy">
             <div class="service-body">
-              <span class="num">/ Weddings</span>
+              <span class="num">/ 01</span>
               <h3>Weddings</h3>
               <p>Photo and film from one person you actually get to know. Your day, told honestly.</p>
               <div class="service-links">
@@ -192,9 +193,9 @@
           <article class="service-card" data-reveal data-delay="0.1">
             <img src="assets/img/ev-02.jpg" alt="Concert crowd in warm stage light" loading="lazy">
             <div class="service-body">
-              <span class="num">/ Events</span>
+              <span class="num">/ 02</span>
               <h3>Events</h3>
-              <p>Concerts, launches, parties, conferences — coverage that catches the room's energy.</p>
+              <p>Concerts, launches, parties, conferences — coverage that catches the room’s energy.</p>
               <div class="service-links">
                 <a href="packages.html#events">Packages</a>
                 <a href="work.html">Work</a>
@@ -204,7 +205,7 @@
           <article class="service-card" data-reveal data-delay="0.15">
             <img src="assets/img/fd-02.jpg" alt="Dishes spread across a dark table, shot from above" loading="lazy">
             <div class="service-body">
-              <span class="num">/ Food</span>
+              <span class="num">/ 03</span>
               <h3>Food</h3>
               <p>Menus, kitchens and dining rooms — photographed so people can almost taste it.</p>
               <div class="service-links">
@@ -216,7 +217,7 @@
           <article class="service-card" data-reveal data-delay="0.2">
             <img src="assets/img/car-03.jpg" alt="Blue sports car in dramatic light" loading="lazy">
             <div class="service-body">
-              <span class="num">/ Automotive</span>
+              <span class="num">/ 04</span>
               <h3>Automotive</h3>
               <p>Rolling shots, rigs and night runs. Machines shot the way they deserve.</p>
               <div class="service-links">
@@ -228,7 +229,7 @@
           <article class="service-card" data-reveal data-delay="0.3">
             <img src="assets/img/re-02.jpg" alt="Architectural house at dusk" loading="lazy">
             <div class="service-body">
-              <span class="num">/ Real estate</span>
+              <span class="num">/ 05</span>
               <h3>Real estate</h3>
               <p>Interiors, twilight exteriors and aerial tours — listings that stop the scroll.</p>
               <div class="service-links">
@@ -252,7 +253,7 @@
     <!-- SHOWREEL -->
     <section class="section-lg">
       <div class="container">
-        <div class="reel-band" data-reveal data-lightbox-video="assets/video/showreel.mp4" data-title="Showreel — Imagine" role="button" tabindex="0" aria-label="Play showreel">
+        <div class="reel-band" data-lightbox-video="assets/video/showreel.mp4" data-title="Showreel — Imagine" role="button" tabindex="0" aria-label="Play showreel">
           <img src="assets/img/bts-01.jpg" alt="Film light on a production set" loading="lazy">
           <div class="reel-center">
             <span class="ring"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
@@ -263,16 +264,16 @@
     </section>
 
     <!-- TESTIMONIALS -->
-    <section class="section-lg">
+    <section class="section">
       <div class="container">
         <p class="label">04 — Kind words</p>
         <div class="grid-2 mt-1">
           <div class="quote-card" data-reveal>
-            <blockquote>“We watched our wedding film in silence, then again with everyone we know. It doesn't feel like a video — it feels like the day.”</blockquote>
+            <blockquote>“We watched our wedding film in silence, then again with everyone we know. It doesn’t feel like a video — it feels like the day.”</blockquote>
             <cite><b>Charlotte &amp; Lachlan</b> — Wedding, 2026</cite>
           </div>
           <div class="quote-card" data-reveal data-delay="0.12">
-            <blockquote>“The photos made our menu look the way the food actually tastes. He shot the whole thing in one quiet afternoon without getting in the kitchen's way.”</blockquote>
+            <blockquote>“The photos made our menu look the way the food actually tastes. He shot the whole thing in one quiet afternoon without getting in the kitchen’s way.”</blockquote>
             <cite><b>Restaurant owner</b> — Food shoot, 2026</cite>
           </div>
         </div>
@@ -319,8 +320,10 @@
       </div>
       <div class="footer-bottom">
         <span>© <span data-year>2026</span> Imagine — Films &amp; Photography</span>
+        <span class="f-time">Local time — <b data-time>--:--</b></span>
         <button class="up" data-scroll-top>Back to top ↑</button>
       </div>
+      <div class="footer-mark" aria-hidden="true">Imagine</div>
     </div>
   </footer>
 

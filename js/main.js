@@ -49,11 +49,19 @@
     }
   }
 
-  /* ---------- nav scroll state ---------- */
+  /* ---------- nav scroll state (background + hide on scroll down) ---------- */
   var nav = document.querySelector(".nav");
+  var lastNavY = 0;
   function onScrollState() {
     var y = lenis ? lenis.scroll : (window.scrollY || 0);
-    if (nav) nav.classList.toggle("is-scrolled", y > 40);
+    if (!nav) return;
+    nav.classList.toggle("is-scrolled", y > 40);
+    var menuOpen = mobileMenu && mobileMenu.classList.contains("is-open");
+    if (!menuOpen && !doc.classList.contains("no-motion")) {
+      if (y > 320 && y > lastNavY + 6) nav.classList.add("is-away");
+      else if (y < lastNavY - 6 || y <= 320) nav.classList.remove("is-away");
+    }
+    lastNavY = y;
   }
   if (lenis) lenis.on("scroll", onScrollState);
   window.addEventListener("scroll", onScrollState, { passive: true });
@@ -66,15 +74,21 @@
     if (!burger || !mobileMenu) return;
     burger.classList.remove("is-open");
     mobileMenu.classList.remove("is-open");
+    if (nav) nav.classList.remove("menu-open");
     burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
     if (lenis) lenis.start();
   }
   if (burger && mobileMenu) {
+    mobileMenu.id = mobileMenu.id || "mobile-menu";
+    burger.setAttribute("aria-controls", mobileMenu.id);
     burger.addEventListener("click", function () {
       var open = !mobileMenu.classList.contains("is-open");
       burger.classList.toggle("is-open", open);
       mobileMenu.classList.toggle("is-open", open);
+      if (nav) { nav.classList.toggle("menu-open", open); nav.classList.remove("is-away"); }
       burger.setAttribute("aria-expanded", String(open));
+      document.body.style.overflow = open ? "hidden" : "";
       if (lenis) open ? lenis.stop() : lenis.start();
     });
     mobileMenu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeMenu); });
@@ -96,6 +110,7 @@
         duration: 1.15,
         ease: "power4.out",
         stagger: 0.045,
+        delay: parseFloat(el.getAttribute("data-split-delay") || 0),
         scrollTrigger: { trigger: el, start: "top 88%", once: true }
       });
     });
@@ -122,9 +137,11 @@
       });
     });
 
-    /* parallax images */
+    /* parallax images (prefer the visible video layer on autoplay cards) */
     document.querySelectorAll("[data-parallax]").forEach(function (wrap) {
-      var img = wrap.querySelector("img, video");
+      var img = wrap.classList.contains("autoplay")
+        ? (wrap.querySelector("video") || wrap.querySelector("img"))
+        : wrap.querySelector("img, video");
       if (!img) return;
       gsap.fromTo(img, { yPercent: -7 }, {
         yPercent: 7,
@@ -148,14 +165,27 @@
     });
   }
 
-  /* ---------- hero video fallback ---------- */
+  /* ---------- hero video (with fallback + reduced-motion respect) ---------- */
   var hero = document.querySelector(".hero");
   var heroVideo = hero ? hero.querySelector("video") : null;
   if (hero && heroVideo) {
-    heroVideo.addEventListener("error", function () { hero.classList.add("no-video"); }, true);
-    var src = heroVideo.querySelector("source");
-    if (src) src.addEventListener("error", function () { hero.classList.add("no-video"); });
-    heroVideo.play && heroVideo.play().catch(function () { /* autoplay blocked: poster still shows */ });
+    if (doc.classList.contains("no-motion")) {
+      heroVideo.removeAttribute("autoplay");
+      heroVideo.pause();
+      hero.classList.add("no-video"); /* static poster instead of looping motion */
+    } else {
+      heroVideo.addEventListener("error", function () { hero.classList.add("no-video"); }, true);
+      var src = heroVideo.querySelector("source");
+      if (src) src.addEventListener("error", function () { hero.classList.add("no-video"); });
+      heroVideo.play && heroVideo.play().catch(function () { /* autoplay blocked: poster still shows */ });
+    }
+  }
+
+  /* keyboard support for click-driven elements */
+  function pressable(el) {
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); }
+    });
   }
 
   /* ---------- hover-to-play preview videos ---------- */
@@ -185,6 +215,12 @@
   /* ---------- film players (click poster to play) ---------- */
   var players = document.querySelectorAll(".film-player");
   players.forEach(function (player) {
+    player.tabIndex = 0;
+    player.setAttribute("role", "button");
+    var block = player.closest(".film-block");
+    var t = block && block.querySelector("h3");
+    player.setAttribute("aria-label", "Play film" + (t ? ": " + t.textContent : ""));
+    pressable(player);
     player.addEventListener("click", function () {
       if (player.classList.contains("is-playing")) return;
       var video = player.querySelector("video");
@@ -204,18 +240,31 @@
     });
   });
 
-  /* ---------- work filters ---------- */
+  /* ---------- work filters (with staggered re-entry) ---------- */
   var chips = document.querySelectorAll(".filters .chip");
   var workItems = document.querySelectorAll(".work-item");
+  chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c.classList.contains("is-active"))); });
   chips.forEach(function (chip) {
     chip.addEventListener("click", function () {
-      chips.forEach(function (c) { c.classList.remove("is-active"); });
+      chips.forEach(function (c) { c.classList.remove("is-active"); c.setAttribute("aria-pressed", "false"); });
       chip.classList.add("is-active");
+      chip.setAttribute("aria-pressed", "true");
       var f = chip.getAttribute("data-filter");
+      var shown = [];
       workItems.forEach(function (item) {
         var show = f === "all" || item.getAttribute("data-cat") === f;
         item.classList.toggle("is-hidden", !show);
+        if (show) {
+          shown.push(item);
+          item.querySelectorAll(".clip-pending").forEach(function (m) { m.classList.remove("clip-pending"); });
+        }
       });
+      if (hasGsap && !doc.classList.contains("no-motion")) {
+        gsap.fromTo(shown, { opacity: 0, y: 26 }, {
+          opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.035, overwrite: true,
+          onComplete: function () { gsap.set(shown, { clearProps: "transform" }); }
+        });
+      }
       if (window.ScrollTrigger) ScrollTrigger.refresh();
     });
   });
@@ -246,11 +295,15 @@
   /* ---------- lightbox ---------- */
   var lightbox = document.querySelector(".lightbox");
   if (lightbox) {
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.setAttribute("aria-label", "Media viewer");
     var stageMedia = lightbox.querySelector(".lb-media");
     var capTitle = lightbox.querySelector(".lb-title");
     var capCount = lightbox.querySelector(".lb-count");
     var galleryItems = [];
     var galleryIndex = 0;
+    var lastFocus = null;
 
     function renderLightbox() {
       var item = galleryItems[galleryIndex];
@@ -276,15 +329,20 @@
       galleryItems = items;
       galleryIndex = index || 0;
       renderLightbox();
+      lastFocus = document.activeElement;
       lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
       if (lenis) lenis.stop();
+      lightbox.querySelector(".lb-close").focus();
     }
     function closeLightbox() {
       lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
       stageMedia.innerHTML = "";
       document.body.style.overflow = "";
       if (lenis) lenis.start();
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
     function stepLightbox(dir) {
       if (galleryItems.length < 2) return;
@@ -307,6 +365,10 @@
     document.querySelectorAll("[data-gallery]").forEach(function (scope) {
       var nodes = Array.prototype.slice.call(scope.querySelectorAll("[data-lightbox]"));
       nodes.forEach(function (node, i) {
+        node.tabIndex = 0;
+        node.setAttribute("role", "button");
+        node.setAttribute("aria-label", "View: " + (node.getAttribute("data-title") || "image " + (i + 1)));
+        pressable(node);
         node.addEventListener("click", function () {
           var items = nodes
             .filter(function (n) { return !n.classList.contains("is-hidden"); })
@@ -325,6 +387,7 @@
 
     /* single triggers (e.g. showreel buttons) */
     document.querySelectorAll("[data-lightbox-video]").forEach(function (btn) {
+      if (btn.tagName !== "BUTTON") pressable(btn);
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         openLightbox([{ video: btn.getAttribute("data-lightbox-video"), title: btn.getAttribute("data-title") || "Showreel" }], 0);
@@ -349,6 +412,95 @@
         window.location.href = "mailto:" + (form.getAttribute("data-mailto") || "hello@example.com") + "?subject=" + subject + "&body=" + body;
       }
     });
+  }
+
+  /* ============================================================
+     Craft layer
+     ============================================================ */
+  var motionOK = hasGsap && !doc.classList.contains("no-motion");
+  var finePointer = window.matchMedia("(pointer: fine)").matches;
+
+  /* --- curtain reveals: media un-clips upward, image settles from a slight zoom --- */
+  if (motionOK && window.ScrollTrigger) {
+    var clipTargets = document.querySelectorAll(
+      ".feature-media, .work-media, .film-player, .service-card, .portrait-frame, .trio figure"
+    );
+    clipTargets.forEach(function (el) {
+      el.classList.add("clip", "clip-pending");
+      ScrollTrigger.create({
+        trigger: el, start: "top 90%", once: true,
+        onEnter: function () { el.classList.remove("clip-pending"); }
+      });
+    });
+
+    /* hero video breathes in behind the preloader */
+    var heroMedia = document.querySelector(".hero-media");
+    if (heroMedia) gsap.fromTo(heroMedia, { scale: 1.12 }, { scale: 1, duration: 3.4, ease: "power2.out", delay: 0.55 });
+
+    /* showreel band grows to full width as it scrolls into place */
+    document.querySelectorAll(".reel-band").forEach(function (band) {
+      gsap.fromTo(band, { scale: 0.9, borderRadius: "22px" }, {
+        scale: 1, borderRadius: "2px", ease: "none",
+        scrollTrigger: { trigger: band, start: "top 96%", end: "top 38%", scrub: true }
+      });
+    });
+  }
+
+  /* --- contextual cursor --- */
+  document.querySelectorAll(".film-player, .reel-band, [data-lightbox-video]").forEach(function (el) {
+    if (!el.hasAttribute("data-cursor")) el.setAttribute("data-cursor", "Play");
+  });
+  document.querySelectorAll(".work-item, .trio figure").forEach(function (el) {
+    if (!el.hasAttribute("data-cursor")) el.setAttribute("data-cursor", "View");
+  });
+  document.querySelectorAll(".feature-media").forEach(function (el) {
+    if (!el.hasAttribute("data-cursor")) el.setAttribute("data-cursor", "Watch");
+  });
+
+  var cursorEl = document.querySelector(".cursor");
+  if (cursorEl && motionOK && finePointer) {
+    var cursorLabel = cursorEl.querySelector(".cursor-label");
+    gsap.set(cursorEl, { x: -100, y: -100 });
+    var curX = gsap.quickTo(cursorEl, "x", { duration: 0.32, ease: "power3" });
+    var curY = gsap.quickTo(cursorEl, "y", { duration: 0.32, ease: "power3" });
+    window.addEventListener("mousemove", function (e) {
+      curX(e.clientX); curY(e.clientY);
+      cursorEl.classList.remove("is-gone");
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", function () { cursorEl.classList.add("is-gone"); });
+    document.querySelectorAll("[data-cursor]").forEach(function (el) {
+      el.addEventListener("mouseenter", function () {
+        cursorLabel.textContent = el.getAttribute("data-cursor");
+        cursorEl.classList.add("is-active");
+      });
+      el.addEventListener("mouseleave", function () { cursorEl.classList.remove("is-active"); });
+    });
+  }
+
+  /* --- magnetic buttons --- */
+  if (motionOK && finePointer) {
+    document.querySelectorAll(".btn, .play-pill, .nav-cta").forEach(function (el) {
+      var mx = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
+      var my = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
+      el.addEventListener("mousemove", function (e) {
+        var r = el.getBoundingClientRect();
+        mx((e.clientX - (r.left + r.width / 2)) * 0.28);
+        my((e.clientY - (r.top + r.height / 2)) * 0.28);
+      });
+      el.addEventListener("mouseleave", function () { mx(0); my(0); });
+    });
+  }
+
+  /* --- local time in the footer --- */
+  var timeEls = document.querySelectorAll("[data-time]");
+  if (timeEls.length) {
+    var tickTime = function () {
+      var d = new Date();
+      var s = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+      timeEls.forEach(function (el) { el.textContent = s; });
+    };
+    tickTime();
+    setInterval(tickTime, 30000);
   }
 
   /* ---------- footer helpers ---------- */

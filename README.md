@@ -7,8 +7,8 @@ A dark, cinematic portfolio website for a **one-person** photo & video business 
 | Page | File | What's on it |
 |---|---|---|
 | Home | `index.html` | Full-bleed video hero, personal intro, 5 featured projects, five service cards, showreel, testimonials |
-| Work | `work.html` | Filterable gallery (Weddings / Events / Food / Automotive / Real estate / BTS), 38 items, lightbox, hover-play film cards |
-| Films | `films.html` | 10 click-to-play film blocks incl. the showreel |
+| Photos | `photos.html` | Filterable gallery (Weddings / Events / Food / Automotive / Real estate / BTS), 38 items, lightbox, hover-play video cards |
+| Videos | `videos.html` | 10 click-to-play video blocks incl. the showreel |
 | Services | `packages.html` | Plain lists of what Eddie does per category. No tiers, no prices, no numeric promises; every block leads to "Get a quote" |
 | About | `about.html` | Eddie's story, principles, BTS gallery |
 | Contact | `contact.html` | Enquiry form + contact details |
@@ -35,7 +35,7 @@ Also replace, searching across the `.html` files:
 
 1. **Email**, `hello@imaginefilms.com` (footer of every page + contact page + the form's `data-mailto`).
 2. **Contact form**, create a free form at [formspree.io](https://formspree.io), then replace `YOUR_FORM_ID` in `contact.html`. Until then the form falls back to opening the visitor's email app.
-3. **City/phone**, add Eddie's city and phone/WhatsApp on the contact page if wanted.
+3. **City**, add Eddie's city on the contact page if wanted (his phone +61 412 874 840 is already on it).
 4. **Names**, film titles, couple names and testimonial quotes are invented placeholders. Swap in real projects and real quotes.
 5. **Package deliverables**, photo counts and delivery windows are sensible solo-shooter estimates; have Eddie confirm they match how he actually works.
 6. **About page**, fill in Eddie's real surname/story if he wants it public.

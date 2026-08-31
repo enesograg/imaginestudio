@@ -603,7 +603,7 @@ html.no-motion .marquee-track { animation: none; }
 .cta-band .h-display em { color: var(--gold); font-style: italic; font-weight: 400; text-transform: none; }
 .footer { border-top: 1px solid var(--line-soft); background: var(--bg1); }
 .footer-main {
-  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: clamp(30px, 4vw, 60px);
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: clamp(30px, 4vw, 60px);
   padding-block: clamp(50px, 7vw, 90px);
 }
 @media (max-width: 950px) { .footer-main { grid-template-columns: 1fr 1fr; } }

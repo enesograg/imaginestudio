@@ -17,7 +17,7 @@
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
   --pad: clamp(20px, 4.5vw, 72px);
-  --section: clamp(90px, 13vw, 190px);
+  --section: clamp(56px, 8vw, 110px);
   --radius: 2px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -285,7 +285,7 @@ html.no-motion .preloader { display: none; }
 .statement .h-xl em { color: var(--gold); font-style: italic; font-weight: 400; }
 
 /* ---------- featured work cards (home) ---------- */
-.feature-list { display: flex; flex-direction: column; gap: clamp(60px, 8vw, 120px); }
+.feature-list { display: flex; flex-direction: column; gap: clamp(40px, 5.5vw, 80px); }
 .feature {
   display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(24px, 4vw, 70px); align-items: end;
 }
@@ -393,7 +393,7 @@ html.no-motion .marquee-track { animation: none; }
 .quote-card cite b { color: var(--ink-dim); }
 
 /* ---------- page headers ---------- */
-.page-head { padding-top: clamp(130px, 20vh, 210px); }
+.page-head { padding-top: clamp(110px, 16vh, 160px); }
 .page-head .h-display { margin-bottom: 24px; }
 .page-head .lead { margin-bottom: 10px; }
 
@@ -434,7 +434,7 @@ html.no-motion .marquee-track { animation: none; }
 .work-meta span { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: #a49b8e; white-space: nowrap; }
 
 /* ---------- films page ---------- */
-.film-list { display: flex; flex-direction: column; gap: clamp(70px, 9vw, 130px); }
+.film-list { display: flex; flex-direction: column; gap: clamp(44px, 6vw, 84px); }
 .film-block .film-player { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 9; background: var(--bg2); cursor: pointer; }
 .film-player .film-poster { position: absolute; inset: 0; z-index: 2; transition: opacity 0.6s ease; }
 .film-player .film-poster img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
@@ -499,7 +499,7 @@ html.no-motion .marquee-track { animation: none; }
 /* plain service blocks: heading + quote button left, offering list right */
 .svc-block {
   display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(24px, 4vw, 80px);
-  border-top: 1px solid var(--line-soft); padding-block: clamp(40px, 6vw, 80px);
+  border-top: 1px solid var(--line-soft); padding-block: clamp(30px, 4.5vw, 56px);
   scroll-margin-top: 110px;
 }
 @media (max-width: 860px) { .svc-block { grid-template-columns: 1fr; gap: 20px; } }
